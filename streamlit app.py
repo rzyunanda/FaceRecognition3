@@ -99,16 +99,19 @@ if st.button("Start Camera"):
             key="face-cam",
             video_processor_factory=FaceProcessor,
             media_stream_constraints={"video": True, "audio": False},
-            rtc_configuration={
-                "iceServers": [{"urls": ["stun:stun.l.google.com:19302"]}]
+            rtc_configuration={                 # <── STUN publik
+                "iceServers": [
+                    {"urls": ["stun:stun.l.google.com:19302"]}
+                ]
             },
-            async_processing=True,          # wajib utk operasi berat
+            async_processing=True,              # <── penting agar frame-loop non-blocking
             video_html_attrs={
                 "autoPlay": True,
-                "controls": False,
+                "playsInline": True,
                 "style": {"width": "100%"},
             },
         )
+
 
 
 st.markdown("---")
