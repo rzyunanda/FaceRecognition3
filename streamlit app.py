@@ -95,9 +95,21 @@ if st.button("Start Camera"):
     if MODE == "Daftarkan Wajah" and not NAME.strip():
         st.warning("Isi nama dulu ya.")
     else:
-        webrtc_streamer(key="face-cam",
-                        video_processor_factory=FaceProcessor,
-                        media_stream_constraints={"video": True, "audio": False})
+        webrtc_streamer(
+            key="face-cam",
+            video_processor_factory=FaceProcessor,
+            media_stream_constraints={"video": True, "audio": False},
+            rtc_configuration={
+                "iceServers": [{"urls": ["stun:stun.l.google.com:19302"]}]
+            },
+            async_processing=True,          # wajib utk operasi berat
+            video_html_attrs={
+                "autoPlay": True,
+                "controls": False,
+                "style": {"width": "100%"},
+            },
+        )
+
 
 st.markdown("---")
 st.caption("© 2025 • Demo InsightFace + Streamlit-WebRTC")
