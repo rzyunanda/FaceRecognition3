@@ -1,10 +1,13 @@
 streamlit==1.35.0
 streamlit-webrtc>=0.63,<0.64
-insightface==0.8.9
-onnxruntime==1.18.0
 
-opencv-python-headless==4.10.0.84
-numpy==1.26.4
+# stack InsightFace CPU
+insightface==0.7.3          # <- versi terakhir di PyPI
+onnxruntime==1.18.0         # wheel tersedia Py3.10
+
+opencv-python-headless==4.8.1.78
+numpy==1.26.4               # stabil & ringan
 scikit-learn==1.4.2
 pandas==2.2.2
+requests
 gTTS==2.5.0
