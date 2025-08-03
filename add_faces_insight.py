@@ -19,7 +19,7 @@ os.makedirs(DATA, exist_ok=True)
 
 # ─── insightface init ─────────────────────────────────────────────────────────
 app = FaceAnalysis(name="buffalo_l", providers=["CPUExecutionProvider"])
-app.prepare(det_size=(320, 320))            # detektor RetinaFace + alignment
+app.prepare(ctx_id=-1, det_size=(320, 320)) # -1 = CPU, 0 = GPU pertama         # detektor RetinaFace + alignment
 
 cap = cv2.VideoCapture(0, cv2.CAP_DSHOW)
 assert cap.isOpened(), "Webcam tidak terbuka!"
@@ -65,3 +65,4 @@ if os.path.exists(names_file):
 pickle.dump(names, open(names_file, "wb"))
 
 print(f"[INFO] {collected} embedding tersimpan utk {name}")
+
