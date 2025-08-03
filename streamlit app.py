@@ -117,28 +117,30 @@ if st.button("Start Camera"):
     if MODE == "Daftarkan Wajah" and not NAME.strip():
         st.warning("Isi nama dulu ya.")
     else:
-        webrtc_streamer(
-             key="test-loop",
-             async_processing=False,
-             rtc_configuration={
-                 "iceServers": [
-                     {"urls": ["stun:stun.l.google.com:19302"]},      # STUN publik
-                     {"urls": ["stun:global.stun.twilio.com:3478"]}   # STUN cadangan
-                 ]
-             },
-             media_stream_constraints={
-                 "video": {        # kurangi resolusi → handshake lebih cepat
-                     "width": { "ideal": 640 },
-                     "height": { "ideal": 480 }
-                 },
-                 "audio": False
-             },
-             video_html_attrs={
-                 "autoPlay": True,
-                 "playsInline": True,
-                 "style": {"width": "100%"}
-             },
-         )
+        st.session_state["cam_on"] = True
+
+if st.session_state.get("cam_on", False):
+    webrtc_streamer(
+        key="face-cam",
+        video_processor_factory=make_processor(MODE, NAME, TARGET),
+        async_processing=True,
+        rtc_configuration={
+            "iceServers": [
+                {"urls": ["stun:stun.l.google.com:19302"]},
+                {"urls": ["stun:global.stun.twilio.com:3478"]}
+            ]
+        },
+        media_stream_constraints={
+            "video": {"width": {"ideal": 640}, "height": {"ideal": 480}},
+            "audio": False
+        },
+        video_html_attrs={
+            "autoPlay": True,
+            "playsInline": True,
+            "muted": True,
+            "style": {"width": "100%"},
+        },
+    )
 
 st.markdown("---")
 st.caption("© 2025 • Demo InsightFace × Streamlit-WebRTC")
